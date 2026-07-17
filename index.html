@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, viewport-fit=cover">
+<title>SalesON</title>
+<meta name="theme-color" content="#0A84FF">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="SalesON">
+<link rel="manifest" href="manifest.json">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="192x192" href="icon-192.png">
+<style>
+  * { margin:0; padding:0; box-sizing:border-box; }
+  html, body { height:100%; overflow:hidden; background:#F2F2F7; }
+  #app { position:fixed; inset:0; width:100%; height:100%; border:0; }
+
+  /* ── 스플래시 ── */
+  #load { position:fixed; inset:0; display:flex; flex-direction:column; align-items:center; justify-content:center;
+          background:#F2F2F7; z-index:10; transition:opacity .45s ease; }
+
+  .logo { position:relative; width:84px; height:84px; border-radius:20px;
+          background:linear-gradient(135deg,#0A84FF,#0A57C2);
+          display:flex; align-items:center; justify-content:center;
+          box-shadow:0 12px 28px rgba(10,132,255,.35);
+          animation:pop .75s cubic-bezier(.2,1.5,.4,1) both; }
+  .logo .s { color:#fff; font-family:Arial,Helvetica,sans-serif; font-size:46px; font-weight:800;
+             transform:translateY(-1px); }
+  .logo .dot { position:absolute; top:-7px; right:-7px; width:22px; height:22px; border-radius:50%;
+               background:#3ED07E; border:4px solid #F2F2F7;
+               animation:blink 1.3s ease-in-out .8s infinite; }
+
+  .wm { margin-top:22px; font-family:-apple-system,'Malgun Gothic',Arial,sans-serif;
+        font-size:27px; font-weight:800; letter-spacing:-.02em; color:#111;
+        opacity:0; animation:rise .55s ease .35s forwards; }
+  .wm b { color:#0A84FF; }
+  .wm .on-dot { display:inline-block; width:9px; height:9px; border-radius:50%; background:#3ED07E;
+                margin-left:5px; vertical-align:12px;
+                animation:blink 1.3s ease-in-out .9s infinite; }
+
+  .sub { margin-top:8px; font-family:-apple-system,'Malgun Gothic',sans-serif; font-size:12.5px; color:#AEAEB2;
+         letter-spacing:.08em; opacity:0; animation:rise .55s ease .55s forwards; }
+
+  .bar { margin-top:26px; width:120px; height:4px; border-radius:99px; background:#E3E3E8; overflow:hidden;
+         opacity:0; animation:rise .4s ease .7s forwards; }
+  .bar > div { width:38%; height:100%; border-radius:99px; background:linear-gradient(90deg,#0A84FF,#3ED07E);
+               animation:slide 1.1s ease-in-out .8s infinite; }
+
+  @keyframes pop   { 0% { transform:scale(.35) rotate(-8deg); opacity:0; }
+                     100% { transform:scale(1) rotate(0); opacity:1; } }
+  @keyframes rise  { from { transform:translateY(14px); opacity:0; } to { transform:none; opacity:1; } }
+  @keyframes blink { 0%,100% { transform:scale(1); box-shadow:0 0 0 0 rgba(62,208,126,.5); }
+                     50% { transform:scale(1.18); box-shadow:0 0 0 7px rgba(62,208,126,0); } }
+  @keyframes slide { 0% { transform:translateX(-130%); } 100% { transform:translateX(400%); } }
+</style>
+</head>
+<body>
+<div id="load">
+  <div class="logo"><span class="s">S</span><span class="dot"></span></div>
+  <div class="wm">Sales<b>ON</b><span class="on-dot"></span></div>
+  <div class="sub">BAZ BIOMEDIC</div>
+  <div class="bar"><div></div></div>
+</div>
+<iframe id="app" src="https://script.google.com/macros/s/AKfycbwOBKGwKxNy7Wjvc_s_fDftC5KqIcVSxGHo8e_UGG6lM-lVkUENtyECThgpNABZjW0gKA/exec"
+        allow="clipboard-write" onload="appReady()"></iframe>
+<script>
+  var T0 = Date.now();
+  function appReady() {
+    // 애니메이션이 최소 1.6초는 보이도록, 로딩이 오래 걸리면 즉시 전환
+    var wait = Math.max(0, 1600 - (Date.now() - T0));
+    setTimeout(function () {
+      var l = document.getElementById('load');
+      l.style.opacity = 0;
+      setTimeout(function () { l.style.display = 'none'; }, 450);
+    }, wait);
+  }
+  if ('serviceWorker' in navigator) { navigator.serviceWorker.register('sw.js').catch(function () {}); }
+</script>
+</body>
+</html>
